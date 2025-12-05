@@ -10,13 +10,13 @@ use std::path::Path;
 pub fn visualize(filename: &str) -> Result<(), Box<dyn std::error::Error>> {
     let root = BitMapBackend::new("resultGraph.png", (640, 480)).into_drawing_area();
     let _ = root.fill(&WHITE).ok();
-    let root = root.margin(10, 10, 10, 10);
+    let root = root.margin(20, 10, 10, 10);
     let vectors = read_csv_std(filename);
     let points: Vec<(f64,f64)> = vectors.0.iter().zip(vectors.1.iter()).map(|(&x,&y)| (x,y)).collect();
     // After this point, we should be able to construct a chart context
     let mut chart = ChartBuilder::on(&root)
         // Set the caption of the chart
-        .caption("This is our first plot", ("sans-serif", 40).into_font())
+        .caption("Wykres dla problemu wibracji akustycznych\n warstwy metalu", ("sans-serif", 30).into_font())
         // Set the size of the label region
         .x_label_area_size(20)
         .y_label_area_size(40)
