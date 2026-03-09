@@ -71,24 +71,35 @@ fn read_input() -> usize {
 }
 
 fn calculate_partial_integral_matrix(k0: f64, k1: f64,iteration: usize,_a_array: &mut ndarray::Array2<f64>,_b_vector: &mut ndarray::Array1<f64>){
+    // używamy 2 pnktowej kwadratury gaussa
+
+    //punkty w układzie odniesienia
     let points:Vec<f64> = vec![-1.0/3f64.sqrt(), 1.0/3f64.sqrt()];
+    //wagi
     let weights = vec![1.0,1.0];
+    // jakobain (przejście między naszymi punktami a tymi wygodnymi ze wzoru)
     let jacobian = (k1-k0)/2.0;
+    // punkt między naszymi 2 punktami
     let middle_point = (k1+k0)/2.0;
 
     //liczymy dla punktu -xi oraz xi
     for i in 0..2 {
 
+        // funkcje kształtu
         let n0 = (1.0 - points[i]) / 2.0;
         let n1 = (1.0 + points[i]) / 2.0;
 
+        // pochodne po tych punktach
         let der_n0_ksi = -0.5;
         let der_n1_ksi = 0.5;
 
+        //zmieniamy pochodne po ksi na pochodne po x
         let der_n0_x = der_n0_ksi / jacobian;
         let der_n1_x = der_n1_ksi / jacobian;
 
+        // obliczamy punkt realny
         let x_real = middle_point + points[i] * jacobian;
+
 
         _a_array[[iteration, iteration]] += (der_n0_x * der_n0_x - n0 * n0) * jacobian * weights[i];
         _a_array[[iteration + 1, iteration]] += (der_n0_x * der_n1_x - n0 * n1) * jacobian * weights[i];
@@ -150,7 +161,6 @@ fn solve_gaussian_elimination(mut a: ndarray::Array2<f64>, mut b: ndarray::Array
             x[i] = 0.0; // Zabezpieczenie
         }
     }
-
     x
 }
 

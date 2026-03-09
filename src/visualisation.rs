@@ -46,7 +46,7 @@ pub fn visualize(filename: &str) -> Result<(), Box<dyn std::error::Error>> {
         &|c, s, st| {
             return EmptyElement::at(c)    // We want to construct a composed element on-the-fly
                 + Circle::new((0,0),s,st.filled()) // At this point, the new pixel coordinate is established
-                + Text::new(format!("{:?}", c), (10, 0), ("sans-serif", 10).into_font());
+                //+ Text::new(format!("{:?}", c), (10, 0), ("sans-serif", 10).into_font());
         },
     ))?;
     root.present()?;
